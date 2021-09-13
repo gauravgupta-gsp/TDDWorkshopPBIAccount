@@ -13,31 +13,32 @@ import java.util.Map;
  * @author gaurav.bs.gupta
  */
 class AuthenticateUser {
-    public Map<String, String> userStore = new HashMap<String, String>();
     
     String INVALID_USERNAME_MESSAGE ="Login Failed, Invalid username";
+    String SUCCESS_LOGIN_MESSAGE="Login Successfull";
+    String INVALID_PASSWORD_MESSAGE ="Login Failed, Invalid password";
     
     public String authenticateUser(String username, String password) {
-//        String CREATED_USERNAME="admin";
-//        String CREATED_PASSWORD = "123456";
-        String SUCCESS_LOGIN_MESSAGE="Login Successfull";
-        String INVALID_PASSWORD_MESSAGE ="Login Failed, Invalid password";
         
-        if(username == null) {
+        if(validateUsername(username)){
+            if(validatePassword(username, password)) {
+                return SUCCESS_LOGIN_MESSAGE;
+            }
+            else {
+                return INVALID_PASSWORD_MESSAGE;
+            }
+        } else {
             return INVALID_USERNAME_MESSAGE;
-        }
-       
-        return SUCCESS_LOGIN_MESSAGE;
+        }        
     }
 
     private boolean validateUsername(String username) {
-       boolean userExists = userStore.containsKey(username);
-       if(userExists) {
-        
-       } 
-       else {
-                return INVALID_USERNAME_MESSAGE;
-       }
+       return UserStore.getUserStore().userStore.containsKey(username);      
     }
+    private boolean validatePassword(String username, String password) {        
+       return UserStore.getUserStore().userStore.get(username).equals(password);      
+    }
+    
+    
     
 }

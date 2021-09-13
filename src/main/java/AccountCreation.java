@@ -1,3 +1,6 @@
+
+import java.util.HashMap;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +12,12 @@
  * @author gaurav.bs.gupta
  */
 class AccountCreation {
+    
+   public  HashMap<String, String> userStore = new HashMap<>();
+   
+   public HashMap<String,String> getUserStore(){
+       return userStore;
+   }
 
     public String createAccount(String userName, String password) {
         String successMessage = "Account created Successfully";
@@ -25,6 +34,8 @@ class AccountCreation {
         else if(validatePassword(password)) {
             return passwordShouldContainOnlyNumbers;
         }        
+        UserStore.getUserStore().userStore.put(userName, password);
+        
         return successMessage;
               
     }
@@ -38,8 +49,5 @@ class AccountCreation {
     
     private boolean validatePassword(String password) {
         return !password.matches("[0-9]*");        
-    }
-
-    
-    
+    }    
 }

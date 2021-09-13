@@ -19,46 +19,51 @@ public class AuthenticateUserTest {
         String username="admin";
         String password = "123456";
         String expected ="Login Successfull";
+        
+        AccountCreation accountCreation = new AccountCreation();
+        accountCreation.createAccount(username, password);
+        
+        Assert.assertTrue(UserStore.getUserStore().userStore.containsKey(username));
       
         AuthenticateUser instance = new AuthenticateUser();
         String result=  instance.authenticateUser(username, password);
+        
+        Assert.assertEquals(expected, result);
+    }
+  
+        
+    @Test
+    public void loginFailedIncaseInvalidUsernameIsPassed(){
+        String username="admin";
+        String password = "123456";
+        String expected ="Login Failed, Invalid username";
+        
+        AccountCreation accountCreation = new AccountCreation();
+        accountCreation.createAccount(username, password);
+        
+        Assert.assertTrue(UserStore.getUserStore().userStore.containsKey(username));
+        
+        AuthenticateUser instance = new AuthenticateUser();
+        String result=  instance.authenticateUser("admin1", "123456");
         
         Assert.assertEquals(expected, result);
     }
     
     @Test
-    public void loginFailsIfUsernameIsPassedAsNull(){
-        String username=null;
-        String password = "123456";
-        String expected ="Login Failed, Invalid username";
+    public void loginFailedIncaseInvalidPasswordIsPassed(){
+        String username="admin";
+        String password = "12345";
+        String expected ="Login Failed, Invalid password";
       
+        AccountCreation accountCreation = new AccountCreation();
+        accountCreation.createAccount(username, password);
+        
+        Assert.assertTrue(UserStore.getUserStore().userStore.containsKey(username));
+      
+        
         AuthenticateUser instance = new AuthenticateUser();
-        String result=  instance.authenticateUser(username, password);
+        String result=  instance.authenticateUser("admin", "123");
         
         Assert.assertEquals(expected, result);
-    }
-        
-    @Test
-    public void loginFailedIncaseInvalidUsernameIsPassed(){
-        String username="admin1";
-        String password = "123456";
-        String expected ="Login Failed, Invalid username";
-      
-        AuthenticateUser instance = new AuthenticateUser();
-        String result=  instance.authenticateUser(username, password);
-        
-        Assert.assertEquals(expected, result);
-    }
-//    
-//    @Test
-//    public void loginFailedIncaseInvalidPaasswordIsPassed(){
-//        String username="admin";
-//        String password = "12345";
-//        String expected ="Login Failed, Invalid password";
-//      
-//        AuthenticateUser instance = new AuthenticateUser();
-//        String result=  instance.authenticateUser(username, password);
-//        
-//        Assert.assertEquals(expected, result);
-//    }    
+    }    
 }
